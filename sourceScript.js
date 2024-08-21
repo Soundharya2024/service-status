@@ -1,17 +1,16 @@
-const allToggleSwitches = document.querySelectorAll("toggle-button-container input");
-allToggleSwitches.forEach((toggleSwitch) => {
-    toggleSwitch.addEventListener("click", (e) => {
-        e.preventDefault();
-    });;
+/* Code for single toggle button */
+document.querySelector("#toggle-button").addEventListener("change", (e) => {
+    e.target.checked = !e.target.checked; //do not toggle
+    const serviceSwitchToggleState = e.target.checked ? "OFF" : "ON";
+    const currentServiceName = e.target.parentElement.parentElement.previousElementSibling.innerText;
+    const popup = document.querySelector("#staticBackdrop");
+    popup.querySelector(".modal-title").textContent = "Confirm Action";
+    popup.querySelector(".modal-body").textContent = `Are you sure you want to switch \"${serviceSwitchToggleState}\" the ${currentServiceName}?`
+    $("#staticBackdrop").modal("show");
 });
 
-const myModalEl = document.getElementById('staticBackdrop');
-myModalEl.addEventListener('shown.bs.modal', event => {
-    myModalEl.on('click','#switch-toggle-confirm', function (e) {
-        const toggleSwitch = event.relatedTarget;
-        if(toggleSwitch.checked)
-            toggleSwitch.checked = false;
-        else
-            toggleSwitch.checked = true;
-    });
+document.querySelector("#switch-toggle-confirm").addEventListener("click", () => {
+    const toggleSwitch = document.querySelector("#toggle-button");
+    toggleSwitch.checked = !toggleSwitch.checked;
+    $("#staticBackdrop").modal("hide");
 });
